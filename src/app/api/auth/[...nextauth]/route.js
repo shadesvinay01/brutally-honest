@@ -3,6 +3,8 @@ import { authOptions } from "@/lib/auth";
 
 export const dynamic = 'force-dynamic';
 
-const handler = NextAuth(authOptions);
+async function auth(req, res) {
+  return await NextAuth(req, res, authOptions);
+}
 
-export { handler as GET, handler as POST };
+export { auth as GET, auth as POST };

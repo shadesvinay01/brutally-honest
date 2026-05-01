@@ -8,13 +8,17 @@ const prismaClientSingleton = () => {
 
 const globalForPrisma = globalThis;
 
-// Only initialize prisma if we are NOT in the build phase
-const prisma = globalForPrisma.prisma ?? (
-  typeof window === 'undefined' && process.env.NEXT_PHASE === 'phase-production-build'
-    ? null
-    : prismaClientSingleton()
-);
+// Ultimate lazy check for Prisma
+const getPrisma = () => {
+  if (typeof window !== 'undefined') return null;
+  if (process.env.NEXT_PHASE === 'phase-production-build') return null;
+  
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = prismaClientSingleton();
+  }
+  return globalForPrisma.prisma;
+};
+
+const prisma = getPrisma();
 
 export default prisma;
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
