@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { headers } from 'next/headers';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  headers();
   try {
     // Basic connectivity check
     await prisma.$connect();

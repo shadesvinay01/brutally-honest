@@ -3,6 +3,8 @@ import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request) {
   const { url } = await request.json();
   if (!url) return NextResponse.json({ error: 'URL required' }, { status: 400 });
