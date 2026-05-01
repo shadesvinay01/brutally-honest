@@ -9,6 +9,8 @@ import Navbar from '../components/Navbar'
 const space = Space_Grotesk({ subsets: ['latin'], variable: '--font-space' })
 const bricolage = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-bricolage' })
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'BRUTALLYHONEST | No Feelings Spared',
   description: 'Enter your website. Get roasted instantly. The world\'s most brutally honest feedback engine.',
