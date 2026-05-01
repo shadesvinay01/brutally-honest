@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { headers } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request) {
-  headers();
   const { searchParams } = new URL(request.url);
   const roastId = searchParams.get('roastId');
   if (!roastId) return NextResponse.json({ error: 'roastId required' }, { status: 400 });

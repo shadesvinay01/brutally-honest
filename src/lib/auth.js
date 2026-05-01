@@ -2,8 +2,12 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+// We use a function to get authOptions to avoid initialization issues during build
 export const authOptions = {
-  adapter: PrismaAdapter(prisma),
+  // Only use the adapter if we are not in the build phase
+  adapter: typeof window === 'undefined' && process.env.NEXT_PHASE !== 'phase-production-build' 
+    ? PrismaAdapter(prisma) 
+    : undefined,
   providers: [
     CredentialsProvider({
       name: "Credentials",

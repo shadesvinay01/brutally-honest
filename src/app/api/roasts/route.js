@@ -1,19 +1,19 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { headers } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  headers();
   try {
     // Basic connectivity check
-    await prisma.$connect();
+    if (prisma) {
+      await prisma.$connect();
+    }
     
-    const roasts = await prisma.roast.findMany({
+    const roasts = prisma ? await prisma.roast.findMany({
       orderBy: { createdAt: 'desc' },
       take: 20
-    });
+    }) : [];
     
     const parsedRoasts = roasts.map(r => {
       try {
@@ -31,6 +31,8 @@ export async function GET() {
     console.error('API_ERROR:', error);
     return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
   } finally {
-    await prisma.$disconnect();
+    if (prisma) {
+      await prisma.$disconnect();
+    }
   }
 }
